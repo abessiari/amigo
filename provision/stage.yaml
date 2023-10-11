@@ -195,7 +195,7 @@
       path: '{{ repo_dir }}'
     register: repo_dir_result
 
-  - name: Checkout repos
+  - name: Checkout amigo repo
     git:
      repo: '{{ repo }}'
      dest: '{{ repo_dir }}'

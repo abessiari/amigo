@@ -1,0 +1,52 @@
+ssh_keys:
+     public: /tmp/go-ssh.pub
+     private: /tmp/go-ssh
+
+stack:
+   vars:
+      PROD_MODE: 1
+      stage_dir: /home/ubuntu/stage_dir
+      amigo_image: geneontology/amigo-base:V1
+      apache_proxy_image: geneontology/apache-proxy:v6
+      S3_CRED_FILE: /tmp/go-aws-credentials
+
+      S3_BUCKET: NOT_NEEDED_FOR_THIS_TEST
+
+      GOLR_SOLR_MEMORY: 6G
+
+      # APACHE PROXY WILL ALLOW FOR HTTPS. Recommended for PRODUCTION
+      USE_SSL: 1
+      S3_SSL_CERTS_LOCATION: REPLACE_ME_WITH_URI
+
+      # APACHE PROXY USE QOS module. Recommended for PRODUCTION
+      USE_QOS: 1
+      QS_ClientEventBlockCount: 350
+      QS_ClientEventBlockCountSeconds: 300
+      QS_ClientEventBlockExcludeIP: "9.9.9.9"
+
+
+      # This index works with master branch and any other branch ....
+      golr_index_archive_url: http://current.geneontology.org/products/solr/golr-index-contents.tgz
+      # golr_index_archive_url: http://skyhook.berkeleybop.org/issue-35-neo-test/products/solr/golr-index-contents.tgz
+
+      #golr_timestamp: http://skyhook.berkeleybop.org/issue-35-neo-test/products/solr/golr_timestamp.log
+      golr_timestamp: http://current.geneontology.org/products/solr/golr_timestamp.log
+
+      release_archive_doi: http://current.geneontology.org/metadata/release-archive-doi.json
+
+
+      AMIGO_DYNAMIC: REPLACE_ME_WITH_AMIGO_RECORD_NAME
+      AMIGO_DYNAMIC_ALIAS: REPLACE_ME_WITH_AMIGO_RECORD_NAME
+
+      AMIGO_PUBLIC_GOLR: REPLACE_ME_WITH_GOLR_RECORD_NAME
+      AMIGO_PUBLIC_GOLR_ALIAS: REPLACE_ME_WITH_GOLR_RECORD_NAME
+      AMIGO_PUBLIC_GOLR_BULK: REPLACE_ME_WITH_GOLR_RECORD_NAME
+
+      GO_API_URL: ""
+      USE_CLOUDFLARE: 0
+
+
+      # For now we test with issue-693-neo-default-relation-different
+      # branch: issue-693-neo-default-relation-different
+      branch: master
+   scripts: [ "stage.yaml", "start_services.yaml" ]

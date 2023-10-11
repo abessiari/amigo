@@ -1,0 +1,9 @@
+terraform {
+  backend "s3" {
+    profile = "default"
+    bucket  = "REPLACE_ME_AMIGO_S3_STATE_STORE"
+    key     = "cicd-test-amigo/terraform.tfstate"
+    region  = "us-east-1"
+    encrypt = true
+  }
+}
