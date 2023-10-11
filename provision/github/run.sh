@@ -42,7 +42,7 @@ total=${NUM_OF_RETRIES:=12}
 
 for (( c=1; c<=$total; c++ ))
 do
-   # This should be transferred to https
+   # This should be redirected to https
    echo wget  --https-only --no-dns-cache http://$amigo_record_name/amigo/landing
    wget  --https-only --no-dns-cache http://$amigo_record_name/amigo/landing
    ret=$?
