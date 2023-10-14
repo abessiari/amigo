@@ -75,7 +75,18 @@
         get_url:
           url: '{{ golr_index_archive_url }}'
           dest: "/tmp/golr_index_{{ timestamp }}.tgz"
-          timeout: 1000
+        async: 9000
+        poll: 0
+        register: get_golr_archive
+        when: not index_result.stat.exists
+
+      - name: Check on async get_golr_archive task
+        async_status:
+          jid: "{{ get_golr_archive.ansible_job_id }}"
+        register: job_result
+        until: job_result.finished
+        retries: 90
+        delay: 10
         when: not index_result.stat.exists
 
       - name: Create golr_index directory
@@ -90,6 +101,18 @@
             || tar -xvf "/tmp/golr_index_{{ timestamp }}.tgz" -C '{{ stage_dir }}/srv-solr-data/index'
         args:
           executable: /bin/bash
+        async: 2000
+        poll: 0
+        register: untar_golr_archive
+        when: not index_result.stat.exists
+
+      - name: Check on async untar_golr_archive task
+        async_status:
+          jid: "{{ untar_golr_archive.ansible_job_id }}"
+        register: job_result
+        until: job_result.finished
+        retries: 200
+        delay: 10
         when: not index_result.stat.exists
     rescue:
       - name: Remove golr_index directory
