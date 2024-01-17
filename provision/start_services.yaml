@@ -3,8 +3,13 @@
   - vars.yaml
 
   tasks:
+  - name: Init swarm
+    shell: |
+         docker swarm init
+         /bin/true
   - name: Create and start services
-    shell: docker stack deploy --compose-file {{ stage_dir }}/docker-compose.yaml amigo
+    shell: |
+         docker stack deploy --compose-file {{ stage_dir }}/docker-compose.yaml amigo
     register: output
     args:
       executable: /bin/bash
