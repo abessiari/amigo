@@ -4,14 +4,14 @@
 
   tasks:
   - name: Create and start services
-    shell: nohup docker compose -f {{ stage_dir }}/docker-compose.yaml up -d
+    shell: docker stack deploy --compose-file {{ stage_dir }}/docker-compose.yaml amigo
     register: output
     args:
       executable: /bin/bash
 
   - name: Check status
     shell: |
-           docker compose -f {{ stage_dir }}/docker-compose.yaml ps
+           docker stack ps amigo
     register: output 
     args:
       executable: /bin/bash

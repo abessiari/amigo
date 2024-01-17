@@ -7,10 +7,12 @@ stack:
       PROD_MODE: 1
       stage_dir: /home/ubuntu/stage_dir
       amigo_image: geneontology/amigo-base:V1
-      apache_proxy_image: geneontology/apache-proxy:v6
+      apache_proxy_image: geneontology/apache-proxy:v7
       S3_CRED_FILE: /tmp/go-aws-credentials
 
       S3_BUCKET: REPLACE_ME_APACHE_LOG_BUCKET
+      S3_PATH: amigo
+      S3_PREFIX: production/REPLACE_ME_WITH_TERRAFORM_WORKSPACE
 
       # APACHE PROXY WILL ALLOW FOR HTTPS. Recommended for PRODUCTION
       USE_SSL: 1

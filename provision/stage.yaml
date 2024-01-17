@@ -27,7 +27,7 @@
           path: "{{ stage_dir }}/golr_timestamp.log"
           state: absent
 
-      - name:  release-archive-doi.json is unused
+      - name: release-archive-doi.json is unused
         file:
           path: "{{ stage_dir }}/release-archive-doi.json"
           state: absent
@@ -143,6 +143,7 @@
       - { file: 'httpd-vhosts-golr.conf', dest: '/proxy-configs' }
       - { file: 'java-golr-monit', dest: '/golr-configs' }
       - { file: 'console-capture-golr.xml', dest: '/golr-configs' }
+      - { file: 'golr-entrypoint.sh', dest: '/golr-configs' }
       - { file: 'httpd-vhosts-amigo-ssl.conf', dest: '/proxy-configs' }
       - { file: 'httpd-vhosts-golr-ssl.conf', dest: '/proxy-configs' }
     when: not PROD_MODE | bool
@@ -157,6 +158,7 @@
       - { file: 'httpd-vhosts-golr.conf', dest: '/proxy-configs' }
       - { file: 'java-golr-monit', dest: '/golr-configs' }
       - { file: 'console-capture-golr.xml', dest: '/golr-configs' }
+      - { file: 'golr-entrypoint.sh', dest: '/golr-configs' }
       - { file: 'docker-compose-production.yaml', dest: '/docker-compose.yaml' }
     when: PROD_MODE | bool
 
@@ -224,6 +226,7 @@
      dest: '{{ repo_dir }}'
      version: '{{ branch }}'
      force: no 
+     single_branch: true
     when: 
       - PROD_MODE | bool 
       - not repo_dir_result.stat.exists
