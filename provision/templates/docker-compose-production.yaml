@@ -13,7 +13,7 @@ services:
     volumes:
       - {{ stage_dir }}/golr-configs/java-golr-monit:/etc/monit/conf-enabled/java
       - {{ stage_dir }}/golr-configs/console-capture-golr.xml:/etc/jetty9/console-capture.xml
-      - {{ stage_dir }}/golr-entrypoint.sh:/entrypoint.sh
+      - {{ stage_dir }}/golr-configs/golr-entrypoint.sh:/entrypoint.sh
       - {{ stage_dir }}/srv-solr-data:/srv/solr/data
       - {{ stage_dir }}/golr_logs:/var/log
     restart: unless-stopped

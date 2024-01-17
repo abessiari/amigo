@@ -14,6 +14,18 @@ zone_id=`aws route53 list-hosted-zones-by-name --dns-name geneontology.io. --max
 amigo_record_name=cicd-test-amigo.geneontology.io
 golr_record_name=cicd-test-golr.geneontology.io
 
+
+aws route53 list-resource-record-sets --hosted-zone-id $zone_id  --max-items 1000 --query "ResourceRecordSets[].Name" | egrep "$amigo_record_name|$golr_record_name"
+ret=$?
+
+if [ "${ret}" == 0 ]
+then
+   echo "$amigo_record_name exists. Cannot proceed. Tray again"
+   exit 1
+fi
+
+echo "Great. $amigo_record_name and $golr_record_name not found ... Proceeeding"
+
 sed "s/REPLACE_ME_WITH_ZONE_ID/$zone_id/g" ./github/config-instance.yaml.sample > ./github/config-instance.yaml
 sed -i "s/REPLACE_ME_WITH_AMIGO_RECORD_NAME/$amigo_record_name/g" ./github/config-instance.yaml
 sed -i "s/REPLACE_ME_WITH_GOLR_RECORD_NAME/$golr_record_name/g" ./github/config-instance.yaml
@@ -37,7 +49,7 @@ go-deploy --working-directory aws -w $workspace -output -verbose
 go-deploy --working-directory aws -w $workspace -c ./github/config-stack.yaml -verbose
 
 ret=1
-total=${NUM_OF_RETRIES:=12}
+total=${NUM_OF_RETRIES:=100}
 
 
 for (( c=1; c<=$total; c++ ))
