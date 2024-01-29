@@ -4,7 +4,7 @@
 
   tasks:
   - name: Tear down existing services
-    shell: docker-compose -f {{ stage_dir }}/docker-compose.yaml down 
+    shell: docker stack rm amigo 
     register: output
     args:
       executable: /bin/bash

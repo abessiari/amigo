@@ -8,10 +8,12 @@ services:
     environment:
       - GOLR=1
       - AMIGO=0
+      - MONIT=0
       - GOLR_SOLR_MEMORY={{ GOLR_SOLR_MEMORY }}
     volumes:
       - {{ stage_dir }}/golr-configs/java-golr-monit:/etc/monit/conf-enabled/java
       - {{ stage_dir }}/golr-configs/console-capture-golr.xml:/etc/jetty9/console-capture.xml
+      - {{ stage_dir }}/golr-configs/golr-entrypoint.sh:/entrypoint.sh
       - {{ stage_dir }}/srv-solr-data:/srv/solr/data
       - {{ stage_dir }}/golr_logs:/var/log
     restart: unless-stopped
@@ -58,6 +60,7 @@ services:
     environment:
       - USE_S3={{ USE_S3 }}
       - S3_PATH={{ S3_PATH }}
+      - S3_PREFIX={{ S3_PREFIX }}
       - S3_BUCKET={{ S3_BUCKET }}
       - USE_SSL={{ USE_SSL }}
       - S3_SSL_CERTS_LOCATION={{ S3_SSL_CERTS_LOCATION }}

@@ -49,4 +49,5 @@ stack:
       # For now we test with issue-693-neo-default-relation-different
       # branch: issue-693-neo-default-relation-different
       branch: master
-   scripts: [ "stage.yaml", "start_services.yaml" ]
+   # scripts: [ "stage.yaml", "start_services.yaml" ]
+   scripts: [ "stage.yaml", "start_services_using_docker_compose.yaml" ]
