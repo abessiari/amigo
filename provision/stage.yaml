@@ -162,6 +162,11 @@
       - { file: 'docker-compose-production.yaml', dest: '/docker-compose.yaml' }
     when: PROD_MODE | bool
 
+  - name: change mode +x for golr-entrypoint ...
+    file:
+      path: '{{ stage_dir }}/golr-configs/golr-entrypoint.sh'
+      mode: u+x,g+x,o+x
+
   - name: install https configs ...
     template:
       src: 'templates/{{ item.file }}'
